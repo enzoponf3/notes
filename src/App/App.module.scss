@@ -1,0 +1,67 @@
+.app {
+  width: 100%;
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid var(--third);
+    div {
+      display: flex;
+      align-items: center;
+      height: 3rem;
+      margin: 1rem;
+      span {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      a {
+        img {
+          height: 3rem;
+        }
+      }
+    }
+  }
+
+  nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    button {
+      font-family: "Comfortaa";
+      background-color: transparent;
+      border: none;
+      width: 33%;
+      padding: 1rem 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 500;
+      &:nth-child(1) {
+        padding: 0 1rem;
+        margin: auto 0;
+        border-right: solid 1px var(--third);
+      }
+      &:nth-child(2) {
+        width: 4rem;
+        height: 4rem;
+        margin: 0.5rem auto;
+        background-color: var(--secondary);
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px rgba($color: #ce1212, $alpha: 0.3);
+      }
+
+      &:nth-child(3) {
+        padding: 0 1rem;
+        margin: auto 0;
+        border-left: solid 1px var(--third);
+      }
+    }
+  }
+}
