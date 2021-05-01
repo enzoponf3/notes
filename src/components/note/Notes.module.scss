@@ -1,0 +1,23 @@
+.notes {
+  width: 100%;
+  position: absolute;
+  top: 5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.filter {
+  width: 100%;
+  span {
+    float: left;
+    font-style: italic;
+  }
+}
+
+.container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
