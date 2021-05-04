@@ -7,7 +7,8 @@
     width: 100%;
     position: fixed;
     top: 0;
-    left: 0;
+    z-index: 1;
+    background-color: var(--primary);
     border-bottom: 1px solid var(--third);
     div {
       display: flex;
@@ -31,8 +32,10 @@
     display: flex;
     justify-content: center;
     position: fixed;
+    background-color: var(--primary);
+    z-index: 1;
     bottom: 0;
-    button {
+    ul {
       font-family: "Comfortaa";
       background-color: transparent;
       border: none;
@@ -61,6 +64,9 @@
         padding: 0 1rem;
         margin: auto 0;
         border-left: solid 1px var(--third);
+      }
+      a {
+        text-decoration: none;
       }
     }
   }

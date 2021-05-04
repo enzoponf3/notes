@@ -1,9 +1,12 @@
 .noteCard {
-  width: 48%;
+  display: inline-block;
+  width: 100%;
+  position: relative;
   background-color: rgba($color: #999, $alpha: 0.1);
   border-radius: 6px;
   border: solid 1px rgba($color: #999, $alpha: 1);
-  padding: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
   div {
     width: 100%;
     text-align: left;
@@ -16,10 +19,10 @@
     }
   }
   .bodyCard {
-    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-height: 10rem;
+    max-height: 20rem;
+    margin-bottom: 2rem;
     div {
       font-size: 0.875rem;
       overflow: hidden;
@@ -27,6 +30,25 @@
   }
 }
 
+.footCard {
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.5rem;
+  bottom: 0;
+  left: 0;
+  a {
+    cursor: pointer;
+    display: flex;
+    border-radius: 50%;
+    padding: 0.5rem;
+    transition: background-color 0.1s linear;
+    &:active {
+      background-color: rgba($color: #999, $alpha: 0.1);
+    }
+  }
+}
 .selected {
   color: var(--third);
 }
