@@ -1,0 +1,46 @@
+.container {
+  background-color: var(--primary);
+  position: absolute;
+  top: 0;
+  padding: 6rem 1rem;
+  width: 100%;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: rgba($color: #eee, $alpha: 0.1);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  span {
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+.title {
+  padding: 0 1rem;
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+.delete {
+  color: var(--third);
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0.5rem;
+  &:hover {
+    background-color: rgba($color: #eee, $alpha: 0.1);
+  }
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  span {
+    margin: 0.5rem;
+  }
+}

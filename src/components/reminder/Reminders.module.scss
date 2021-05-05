@@ -1,0 +1,54 @@
+.container {
+  position: absolute;
+  top: 0;
+  padding: 6rem 1rem;
+  background-color: var(--primary);
+}
+.reminder {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba($color: #eee, $alpha: 0.1);
+  border-radius: 6px;
+  padding: 1rem 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  cursor: pointer;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    div {
+      display: flex;
+      flex-direction: column;
+      h3 {
+        margin-bottom: 0.5rem;
+        font-size: 16px;
+        text-transform: capitalize;
+      }
+      h4 {
+        font-size: 12px;
+        font-style: italic;
+      }
+    }
+    span {
+      padding: 0.5rem;
+    }
+  }
+}
+.delete {
+  padding: 0.5rem;
+  color: var(--third);
+  cursor: pointer;
+  border-radius: 50%;
+  &:hover {
+    background-color: rgba($color: #eee, $alpha: 0.1);
+  }
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  span {
+    margin: 0.5rem;
+  }
+}
