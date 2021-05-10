@@ -1,0 +1,79 @@
+.addNote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  form {
+    width: 90%;
+  }
+  label,
+  input,
+  textarea,
+  select {
+    text-align: left;
+    display: block;
+  }
+  input,
+  select,
+  textarea {
+    font-family: "Comfortaa";
+    margin-top: 0.2rem;
+    background-color: rgba($color: #eee, $alpha: 0.1);
+    border: solid 2px rgba($color: #eee, $alpha: 0.2);
+    width: 100%;
+    border-radius: 6px;
+    &:focus {
+      border: solid 2px rgba($color: #eee, $alpha: 0.5);
+      background-color: rgba($color: #eee, $alpha: 0.2);
+      outline: none;
+    }
+  }
+  label {
+    padding: 0.5rem;
+    text-indent: 0.5rem;
+  }
+  textarea {
+    resize: none;
+    height: 200px;
+  }
+  select {
+    padding: 0.3rem;
+    margin: 0.5rem;
+    width: calc(100% - 1rem);
+  }
+  input,
+  textarea {
+    padding: 0.5rem;
+  }
+  option {
+    background-color: gray;
+  }
+}
+
+.selected {
+  color: var(--third);
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+}
+
+.labelBadge {
+  font-size: 12px;
+  background-color: rgba($color: #eee, $alpha: 0.1);
+  border-radius: 1rem;
+  padding: 0.3rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
+  &:first-of-type {
+    margin-left: 0;
+  }
+}
+
+.submitBtn {
+  background-color: var(--third) !important;
+  color: #eee;
+  border-radius: 6px;
+  width: 100%;
+}

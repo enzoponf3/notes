@@ -7,6 +7,7 @@ import {Route, Link, BrowserRouter as Router} from "react-router-dom"
 import Notes from "~/components/note"
 import Labels from "~/components/label"
 import Reminders from "~/components/reminder"
+import Add from "~/components/add"
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route exact path="/" component={Notes}/>
         <Route path="/labels" exact component={Labels}/>
         <Route path="/reminders" exact component={Reminders}/>
+        <Route path="/add" exact component={Add}/>
       </div>
     </Router>
   )
