@@ -29,9 +29,10 @@ function App() {
           </div>
         </header>
         <nav>
-          <ul><Link to="/labels" onClick={()=>setTitle("Labels")}>Labels</Link></ul>
-          <ul><Link to="/add"><span className="material-icons">add</span></Link></ul>
-          <ul><Link to="/reminders" onClick={()=>setTitle("Reminders")}>Reminders</Link></ul>
+          <ul><Link to="/">Home<span className="material-icons">home</span></Link></ul>
+          <ul><Link to="/reminders" onClick={()=>setTitle("Reminders")}>Reminders<span className="material-icons">alarm</span></Link></ul>
+          <ul><Link to="/add">Add<span className="material-icons">add</span></Link></ul>
+          <ul><Link to="/labels" onClick={()=>setTitle("Labels")}>Labels<span className="material-icons">label</span></Link></ul>
         </nav>
         <Route exact path="/" component={Notes}/>
         <Route path="/labels" exact component={Labels}/>

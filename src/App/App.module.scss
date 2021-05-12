@@ -35,7 +35,8 @@
     background-color: var(--primary);
     z-index: 1;
     bottom: 0;
-    height: 5rem;
+    height: 4rem;
+    box-shadow: 0 0 4px 1px rgba($color: #eee, $alpha: 0.1);
     ul {
       font-family: "Comfortaa";
       background-color: transparent;
@@ -47,24 +48,18 @@
       font-size: 14px;
       font-weight: 500;
       margin: auto 0;
-      &:nth-child(1) {
+      &:not(:last-child) {
         border-right: solid 1px var(--third);
-      }
-      &:nth-child(3) {
-        border-left: solid 1px var(--third);
-      }
-      &:nth-child(2) {
-        span {
-          padding: 1rem;
-          background-color: var(--secondary);
-          border-radius: 50%;
-          box-shadow: 0 0 0 2px rgba($color: #ce1212, $alpha: 0.3);
-          text-decoration: none;
-        }
       }
     }
     a {
       text-decoration: none;
+      display: flex;
+      flex-direction: column-reverse;
+    }
+    span {
+      font-size: 16px;
+      margin: 0.2rem;
     }
   }
 }
