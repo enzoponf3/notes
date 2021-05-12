@@ -1,0 +1,16 @@
+.addReminder {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  form {
+    width: 90%;
+  }
+  div {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+  }
+  option {
+    background-color: gray;
+  }
+}

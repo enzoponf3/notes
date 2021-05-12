@@ -6,6 +6,7 @@ import labelApi from "../label/api"
 
 import AddNote from "./addNote"
 import AddLabel from "./addLabel"
+import AddReminder from "./addReminder"
 
 
 const Add: React.FC = () => {
@@ -28,9 +29,7 @@ const Add: React.FC = () => {
         <AddNote labels={labels}/>
       }
       {type === "reminder" && 
-        <div>
-            Add reminder
-        </div>
+        <AddReminder/>
       }
       {type === "label" && 
           <AddLabel/>

@@ -1,6 +1,8 @@
 import * as React from "react"
 
 import styles from "./AddNote.module.scss"
+import api from "~/components/note/api"
+
 import { Label } from "~/components/label/types"
 import { Note } from "~/components/note/types"
 
@@ -12,6 +14,7 @@ const AddNote: React.FC<Props> = ({labels}) => {
   const [favorite, setFavorite] = React.useState<boolean>(false)
   const [selectedLabels, setSelectedLabels] = React.useState<Label[]>([])
   const [_labels, set_labels] = React.useState<Label[]>([])
+  const [disabled, setDisabled] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     set_labels(labels)
@@ -41,10 +44,16 @@ const AddNote: React.FC<Props> = ({labels}) => {
 
   const handleSubmit = () => {
     if(note.title === "" && note.body === "") return
+    setDisabled(true)
     note.labels = [...selectedLabels]
     const date = String(new Date)
     note.createDate = date
     console.log(note)
+    api.add(note)
+      .then( r => {
+        console.log(r),
+        document.location.href= "/"
+      })
   }
 
   return (
@@ -74,16 +83,16 @@ const AddNote: React.FC<Props> = ({labels}) => {
         </div>
         <label>
                 Add to Favorites ? 
-          <button type="button" className={!favorite? styles.selected : ""} onClick={() =>{ 
+          <button type="button" className={!favorite? `${styles.selected} ${styles.labelBtn}` : styles.labelBtn } onClick={() =>{ 
             note.favorite=false
             setFavorite(false)
           }}>No</button>
-          <button type="button" className={favorite? styles.selected : ""} onClick={() => {
+          <button type="button" className={favorite? `${styles.selected} ${styles.labelBtn}` : styles.labelBtn } onClick={() => {
             note.favorite=true
             setFavorite(true)
           }}>Yes</button>
         </label>
-        <button className={styles.submitBtn} type="button" onClick={handleSubmit}>Save Note</button>
+        <button disabled={disabled} type="button" onClick={handleSubmit}>Save Note</button>
       </form>
     </div>  
   )
