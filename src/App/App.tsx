@@ -35,6 +35,7 @@ function App() {
           <ul><Link to="/labels" onClick={()=>setTitle("Labels")}>Labels<span className="material-icons">label</span></Link></ul>
         </nav>
         <Route exact path="/" component={Notes}/>
+        <Route path="/notes/:label" exact component={Notes}/>
         <Route path="/labels" exact component={Labels}/>
         <Route path="/reminders" exact component={Reminders}/>
         <Route path="/add" exact component={Add}/>

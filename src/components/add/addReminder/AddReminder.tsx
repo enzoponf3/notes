@@ -5,8 +5,11 @@ import api from "~/components/reminder/api"
 
 import { Reminder } from "~/components/reminder/types"
 
+interface Props{
+  id: string
+}
 
-const AddReminder: React.FC = () => {
+const AddReminder: React.FC<Props> = ({id}) => {
   const [disabled, setDisabled] = React.useState<boolean>(false)
   type frecuency = "daily" | "weekly" | "monthly" | "yearly"
   const reminder: Reminder = {

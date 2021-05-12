@@ -4,7 +4,11 @@ import { Label } from "~/components/label/types"
 import styles from "./AddLabel.module.scss"
 import api from "~/components/label/api"
 
-const AddLabel: React.FC = () => {
+interface Props{
+  id: string
+}
+
+const AddLabel: React.FC<Props> = ({ id }) => {
   const [disabled, setDisabled] = React.useState<boolean>(false)
   const label: Label = {
     id:"",

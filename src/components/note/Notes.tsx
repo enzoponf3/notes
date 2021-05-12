@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useParams } from "react-router-dom"
 
 import styles from "./Notes.module.scss"
 import {Note} from "./types"
@@ -7,14 +8,12 @@ import NoteCard from "./noteCard"
 import api from "./api"
 import Loader from "../loader"
 
-interface Props{
-    filter:string
-}
-
-const Notes: React.FC<Props> = ({filter = ""}) => {
+const Notes: React.FC = () => {
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
   const [notes, setNotes] = React.useState<Note[]>([])
   const [favorites, setFavorites] = React.useState<Note[]>([])
+
+  const { label } = useParams<{label: string}>()
 
   React.useEffect( () => {
     api.list()
@@ -39,14 +38,32 @@ const Notes: React.FC<Props> = ({filter = ""}) => {
     ) 
   }
 
+  if(label){
+    return(
+      <div className={styles.notes}>
+        <>
+          <p>Label: {label}</p>
+          <div className={styles.container}>
+            {notes
+              .filter(n => {
+                let contains = false
+                n.labels.map( l => {
+                  if(l.title === label) contains = true
+                })
+                return contains
+              })
+              .map( e =><NoteCard handleFav={() => handleFav(e)} handleDelete={() => handleDelete(e)} key={e.id} note={e}/>)}
+          </div>
+        </>
+      </div>
+    )
+  }
+
   return (
     <>
       {notes.length === 0 && <div className={styles.message}><p>Add notes by clicking the</p><strong>+</strong> <p> icon below!</p></div> }
       {notes.length !== 0 &&
-        <div className={styles.notes}>
-          {filter !== "" &&
-        <div className={styles.filter}><span>{filter}</span></div> 
-          }
+        <div className={styles.notes}>          
           {favorites.length !== 0 &&
         <>
           <p>Favorites</p>

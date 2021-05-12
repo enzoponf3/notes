@@ -14,11 +14,19 @@
   background-color: rgba($color: #eee, $alpha: 0.1);
   border-radius: 6px;
   margin-bottom: 1rem;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   cursor: pointer;
   span {
     text-align: center;
     vertical-align: middle;
+  }
+  div > a {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0.5rem;
+    &:hover {
+      background-color: rgba($color: #eee, $alpha: 0.1);
+    }
   }
 }
 .title {
@@ -29,12 +37,6 @@
 
 .delete {
   color: var(--third);
-  cursor: pointer;
-  border-radius: 50%;
-  padding: 0.5rem;
-  &:hover {
-    background-color: rgba($color: #eee, $alpha: 0.1);
-  }
 }
 
 .message {

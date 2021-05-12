@@ -8,9 +8,10 @@ import { Note } from "~/components/note/types"
 
 interface Props{
     labels: Label[]
+    id: string
 }
 
-const AddNote: React.FC<Props> = ({labels}) => {
+const AddNote: React.FC<Props> = ({labels, id}) => {
   const [favorite, setFavorite] = React.useState<boolean>(false)
   const [selectedLabels, setSelectedLabels] = React.useState<Label[]>([])
   const [_labels, set_labels] = React.useState<Label[]>([])
