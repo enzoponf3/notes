@@ -44,9 +44,12 @@ let labels: Label[] = [
 
 export default {
   list: (): Promise<Label[]> => Promise.resolve(labels),
-  add: (label: Label) : Promise<boolean> => new Promise( (resolve) =>
+  add: (label: Label): Promise<boolean> => new Promise( (resolve) =>
   {
     labels = [...labels, label]
     resolve(true)
+  }),
+  get: (id: string): Promise<Label | undefined> => new Promise( resolve =>{
+    resolve( labels.find( l => l.id === id))
   })
 }

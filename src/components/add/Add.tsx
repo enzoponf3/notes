@@ -21,12 +21,6 @@ const Add: React.FC <Props> = ( { _type = "note", id = ""} ) => {
       .then(l => setLabels(l))
   },[])
 
-  if(id){
-    return(
-      <div className={styles.add}></div>
-    )
-  }
-
   return (
     <div className={styles.add}>
       {id === "" &&
@@ -44,7 +38,7 @@ const Add: React.FC <Props> = ( { _type = "note", id = ""} ) => {
         <AddReminder id={id}/>
       }
       {type === "label" && 
-          <AddLabel id={id}/>
+        <AddLabel id={id}/>
       }
     </div>
   )

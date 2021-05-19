@@ -16,12 +16,7 @@ const AddNote: React.FC<Props> = ({labels, id}) => {
   const [selectedLabels, setSelectedLabels] = React.useState<Label[]>([])
   const [_labels, set_labels] = React.useState<Label[]>([])
   const [disabled, setDisabled] = React.useState<boolean>(false)
-
-  React.useEffect(() => {
-    set_labels(labels)
-  },[labels])
-
-  const note: Note = {
+  const [note, setNote] = React.useState<Note>({
     id:"",
     title:"",
     body: "",
@@ -29,7 +24,21 @@ const AddNote: React.FC<Props> = ({labels, id}) => {
     createDate: "",
     favorite: false
     
-  }
+  })
+
+  React.useEffect(() => {
+    set_labels(labels)
+    if(id !== ""){
+      api.get(id)
+        .then(n => {
+          if(n !== undefined){
+            setNote(n)
+            setFavorite(n.favorite)
+            setSelectedLabels(n.labels)
+            set_labels(_labels.filter(l => !selectedLabels.includes(l) ))
+          }})
+    }
+  },[id])
 
   const addBadge = (title:string) => {
     const label = labels.filter( l => l.title === title)[0]
@@ -62,13 +71,25 @@ const AddNote: React.FC<Props> = ({labels, id}) => {
       <form action="submit">
         <label>
                 Title
-          <input type="text" onChange={e => note.title = e.target.value}/>
+          <input value={note.title} type="text" onChange={e => setNote({
+            id: note.id,
+            title: e.target.value,
+            body: note.body,
+            createDate: note.createDate,
+            favorite: note.favorite,
+            labels: note.labels
+          })}/>
         </label>
         <label >
                 Note
-          <textarea onChange={e => {
-            note.body = e.target.value
-          }
+          <textarea value={note.body} onChange={e => setNote({
+            id: note.id,
+            title: note.title,
+            body: e.target.value,
+            createDate: note.createDate,
+            favorite: note.favorite,
+            labels: note.labels
+          })
           } />
         </label>
         <select id="labelInput" onChange={e => addBadge(e.target.value)}   className={styles.labelsInput} value="Select a label">

@@ -7,14 +7,15 @@ interface Props{
   note: Note
   handleDelete: () => void
   handleFav: () => void
+  handleEdit: () => void
 }
 
-const NoteCard: React.FC<Props> = ({note, handleDelete, handleFav}) => {
+const NoteCard: React.FC<Props> = ({note, handleDelete, handleFav, handleEdit}) => {
   return (
     <div className={styles.noteCard}>
-      <div><h3>{note.title}</h3></div>
+      <div onClick={handleEdit}><h3>{note.title}</h3></div>
       <div className={styles.bodyCard}>
-        <div>
+        <div onClick={handleEdit}>
           <p>{note.body}</p>
         </div>    
     

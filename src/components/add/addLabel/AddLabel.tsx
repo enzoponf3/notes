@@ -8,21 +8,28 @@ interface Props{
   id: string
 }
 
-const AddLabel: React.FC<Props> = ({ id }) => {
+const AddLabel: React.FC<Props> = ({ id = "" }) => {
   const [disabled, setDisabled] = React.useState<boolean>(false)
-  const label: Label = {
-    id:"",
-    title:""
-  }
+  const [label, setLabel] = React.useState<Label>({id:"", title:""})
+
+  React.useEffect(() => {
+    if(id !== ""){
+      api.get(id)
+        .then(l => {
+          if(l !== undefined){
+            setLabel(l)
+          }
+        })
+    }
+  },[id])
 
   const handleSubmit = () => {
     if(label.title === "") return 
     setDisabled(true)
     api.add(label)
-      .then(r => {
-        console.log(r)
-        document.location.href= "/labels"
-      })
+      .then( () =>
+        document.location.href="/labels"
+      )
 
   }
 
@@ -31,7 +38,7 @@ const AddLabel: React.FC<Props> = ({ id }) => {
       <form action="submit">
         <label>
           Title
-          <input type="text" onChange={e => label.title = e.target.value}/>
+          <input value={label.title} type="text" onChange={e => setLabel({id: label.id,title:e.target.value}) }/>
         </label>
         <button disabled={disabled} onClick={handleSubmit} type="button">Save Label</button>
       </form>

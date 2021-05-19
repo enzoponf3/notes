@@ -5,14 +5,14 @@ import api from "./api"
 import { Label } from "./types"
 
 import styles from "./Labels.module.scss"
-import LabelModal from "./labelModal"
+import Add from "../add"
 
 
 const Labels: React.FC = () => {
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
   const [labels, setLabels] = React.useState<Label[]>([])
-  const [modal, setModal] = React.useState<boolean>(false)
-  const [edit, setEdit] = React.useState<Label>()
+  const [isOpen, setIsOpen] = React.useState<boolean>(false)
+  const [edit, setEdit] = React.useState<Label>({id:"", title:""})
 
   React.useEffect(() => {
     api.list()
@@ -31,7 +31,8 @@ const Labels: React.FC = () => {
   }
 
   const handleEdit = (label: Label) => {
-    console.log(label)
+    setEdit(label)
+    setIsOpen(true)
   }
 
   if(status ==="pending"){
@@ -46,8 +47,8 @@ const Labels: React.FC = () => {
       {labels.length === 0 && <div className={styles.message}>Add labels by clicking the <span className="material-icons">add</span> icon below!</div>}
       <div className={styles.container}>
         {labels.map( l => 
-          <div onClick={() => handleClick(l)} key={l.id} className={styles.label}>
-            <div>
+          <div  key={l.id} className={styles.label}>
+            <div onClick={() => handleClick(l)}>
               <span className="material-icons">label</span>
               <span className={styles.title}>{l.title}</span>
             </div>
@@ -57,7 +58,10 @@ const Labels: React.FC = () => {
             </div>
           </div>
         )}
-        <LabelModal isOpen={modal} handleSave={()=>console.log("wara")} label={edit} />
+        <div className={isOpen? `${styles.edit} ${styles.open}`:`${styles.edit}`}>
+          <Add  _type="label" id={edit.id} />
+          <button onClick={ () => setIsOpen(false)} className={styles.cancelBtn} type="button">Cancel</button>
+        </div>
       </div>
     </>
   )

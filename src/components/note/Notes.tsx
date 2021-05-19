@@ -7,12 +7,14 @@ import NoteCard from "./noteCard"
 
 import api from "./api"
 import Loader from "../loader"
+import Add from "../add"
 
 const Notes: React.FC = () => {
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
   const [notes, setNotes] = React.useState<Note[]>([])
   const [favorites, setFavorites] = React.useState<Note[]>([])
-
+  const [isOpen, setIsOpen] = React.useState<boolean>(false)
+  const [editId, setEditId] = React.useState<string>("")
   const { label } = useParams<{label: string}>()
 
   React.useEffect( () => {
@@ -30,6 +32,11 @@ const Notes: React.FC = () => {
   const handleFav = (note: Note) =>{
     note.favorite = !note.favorite
     setFavorites (notes.filter(n => n.favorite === true))
+  }
+
+  const handleEdit = (note: Note) =>{
+    setEditId(note.id)
+    setIsOpen(true)
   }
 
   if (status === "pending") {
@@ -52,7 +59,14 @@ const Notes: React.FC = () => {
                 })
                 return contains
               })
-              .map( e =><NoteCard handleFav={() => handleFav(e)} handleDelete={() => handleDelete(e)} key={e.id} note={e}/>)}
+              .map( e =>
+                <NoteCard 
+                  handleEdit={() => handleEdit(e)} 
+                  handleFav={() => handleFav(e)} 
+                  handleDelete={() => handleDelete(e)} 
+                  key={e.id} 
+                  note={e}
+                />)}
           </div>
         </>
       </div>
@@ -68,12 +82,33 @@ const Notes: React.FC = () => {
         <>
           <p>Favorites</p>
           <div className={styles.favorites}>
-            {favorites.map(e => <NoteCard handleFav={() => handleFav(e)} handleDelete={() => handleDelete(e)} key={e.id} note={e}/>)}
+            {favorites.map(e => 
+              <NoteCard 
+                handleFav={() => handleFav(e)} 
+                handleDelete={() => handleDelete(e)} 
+                handleEdit={() => handleEdit(e)}
+                key={e.id} 
+                note={e}/>)}
           </div>
         </>
           }
           <div className={styles.container}>
-            {notes.filter(n => n.favorite === false).map( e =><NoteCard handleFav={() => handleFav(e)} handleDelete={() => handleDelete(e)} key={e.id} note={e}/>)}
+            {notes.filter(n => n.favorite === false).map( e =>
+              <NoteCard 
+                handleFav={() => handleFav(e)} 
+                handleDelete={() => handleDelete(e)} 
+                handleEdit= { () => handleEdit(e)}
+                key={e.id} 
+                note={e}
+              />)}
+          </div>
+          <div 
+            className={isOpen? `${styles.edit} ${styles.open}`:`${styles.edit}`}
+          >
+            <Add  _type="note" id={editId} />
+            <button 
+              onClick={ () => setIsOpen(false) }
+              className={styles.cancelBtn} type="button">Cancel</button>
           </div>
         </div>
       }

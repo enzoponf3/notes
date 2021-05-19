@@ -23,5 +23,8 @@ export default {
   add: (reminder: Reminder): Promise<boolean> => new Promise(resolve => {
     reminders = [...reminders, reminder]
     resolve (true)
+  }),
+  get: (id: string): Promise<Reminder | undefined> => new Promise(resolve => {
+    resolve (reminders.find(r => r.id === id))
   })
 }

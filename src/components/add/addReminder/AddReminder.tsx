@@ -9,25 +9,33 @@ interface Props{
   id: string
 }
 
-const AddReminder: React.FC<Props> = ({id}) => {
+const AddReminder: React.FC<Props> = ({id=""}) => {
   const [disabled, setDisabled] = React.useState<boolean>(false)
   type frecuency = "daily" | "weekly" | "monthly" | "yearly"
-  const reminder: Reminder = {
+  const [reminder, setReminder]= React.useState<Reminder>({
     id:"",
     title:"",
     description:"",
     hour:"",
     type:"daily",
     createDate:""
-  }
+  })
+  React.useEffect(() => {
+    if(id !== ""){
+      api.get(id)
+        .then(r => {
+          if(r !== undefined){
+            setReminder(r)
+          }
+        })
+    }
+  },[id])
 
   const handleSubmit = () => {
     if(reminder.title === "") return
     setDisabled(true)
-    console.log(reminder)
     api.add(reminder)
-      .then(r => {
-        console.log(r)
+      .then(() => {
         document.location.href = "/reminders"
       })
   }
@@ -36,22 +44,52 @@ const AddReminder: React.FC<Props> = ({id}) => {
       <form action="submit">
         <label>
             Title
-          <input type="text" onChange={e => reminder.title = e.target.value} />
+          <input value={reminder.title} type="text" onChange={e => setReminder({
+            id:reminder.id,
+            title:e.target.value,
+            description:reminder.description,
+            hour:reminder.hour,
+            type:reminder.type,
+            createDate:reminder.createDate
+          })} 
+          />
         </label>
         <label>
             Description
-          <input type="text" onChange={e => reminder.description = e.target.value} />
+          <input value={reminder.description} type="text" onChange={e => setReminder({
+            id:reminder.id,
+            title:reminder.title,
+            description:e.target.value,
+            hour:reminder.hour,
+            type:reminder.type,
+            createDate:reminder.createDate
+          })} 
+          />
         </label>
         <div className={styles.selectors}>
           <label htmlFor="">Frecuency</label>
-          <select onChange={e => reminder.type = e.target.value as frecuency }>
+          <select onChange={e => setReminder({
+            id:reminder.id,
+            title:reminder.title,
+            description:reminder.description,
+            hour:reminder.hour,
+            type:e.target.value as frecuency,
+            createDate:reminder.createDate
+          })}>
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
           </select>
           <label htmlFor="">Hour</label>
-          <select onChange={e => reminder.hour = e.target.value}>
+          <select onChange={e => setReminder({
+            id:reminder.id,
+            title:reminder.title,
+            description:reminder.description,
+            hour:e.target.value,
+            type:reminder.type,
+            createDate:reminder.createDate
+          })}>
             <option value="00">00</option>
             <option value="01">01</option>
             <option value="02">02</option>
