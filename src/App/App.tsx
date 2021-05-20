@@ -12,7 +12,6 @@ import Add from "~/components/add"
 
 function App() {
   const [title, setTitle] = React.useState<"Notes" | "Labels" | "Reminders">("Notes")
-  const [filter, setFilter] = React.useState<string>("")
 
   return (
     <Router>
