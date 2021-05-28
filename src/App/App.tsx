@@ -3,28 +3,31 @@ import * as React from "react"
 import styles from "./App.module.scss"
 import logo from  "../assets/logo.svg"
 import {Route, Link, BrowserRouter as Router} from "react-router-dom"
+import { useLogout } from "~/components/user/hooks"
 
 import Notes from "~/components/note"
 import Labels from "~/components/label"
 import Reminders from "~/components/reminder"
 import Add from "~/components/add"
 
-
 function App() {
   const [title, setTitle] = React.useState<"Notes" | "Labels" | "Reminders">("Notes")
 
+  const logout = useLogout()
+  
   return (
     <Router>
 
       <div className={styles.app}>
         <header>
           <div>
-            <span>{title}</span>
-          </div>
-          <div>
             <Link to="/" onClick={() => setTitle("Notes")}>
               <img src={logo} alt="ponfe logo"/>
             </Link>
+            <span>{title}</span>
+          </div>
+          <div>
+            <a onClick={() => logout()} className="material-icons">logout</a>
           </div>
         </header>
         <nav>

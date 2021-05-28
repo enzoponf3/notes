@@ -1,17 +1,17 @@
 import * as React from "react"
-import Loader from "../loader"
 import Login from "../login"
 
-import api from "./api"
 import { User } from "./types"
+import * as firebase from "~/firebase"
+import Loader from "../loader"
+
 
 export interface Context {
     state:{
         user: User | undefined
     }
     actions:{
-        login: () => void
-        logout: () => void
+      logout: () => Promise<void>
     }
 }
 
@@ -21,24 +21,35 @@ const UserProvider: React.FC = ({children}) => {
   const [user, setUser] = React.useState<User>()
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
 
+  React.useEffect(() => {
+    firebase.onAuthStateChanged(setUser)
+    setTimeout(() => {
+      setStatus("resolved")
+    }, 800)
+  },[user])
+
   async function handleLogin(){
     if(user) return
-    return api.login()
-      .then(u => {
-        setUser(u)
-        setStatus("resolved")
-      })
+    firebase.googleLogin()
+      .then(()=>setStatus("resolved"))
+    return
   }
 
-  async function handleLogout() {
+  async function handleLogout(){
     if(!user) return
-    return api.logout()
-      .then( u => setUser(u))
+    await firebase.logout()
+    setUser(undefined)
+  }
+
+  if(status === "pending"){
+    return(
+      <Loader/>
+    )
   }
   
-  if(!user || status === "pending"){
+  if(!user){
     return(
-      <Login handleLogin={ () => handleLogin() }/>
+      <Login handleLogin={ handleLogin }/>
     )
   }
 
@@ -47,8 +58,7 @@ const UserProvider: React.FC = ({children}) => {
   }
 
   const actions = {
-    login: handleLogin,
-    logout: handleLogout
+    logout : handleLogout
   }
 
   return <UserContext.Provider value={{state, actions}}>{children}</UserContext.Provider>

@@ -27,7 +27,7 @@ const Login: React.FC<Props> = ({handleLogin}) => {
             <img src={google} alt="" />
           }
         </button>
-        <button className={ status ? `${styles.loginBtn} ${styles.disabled}` : `${styles.loginBtn}`} onClick={handleClick}><span className="material-icons">facebook</span></button>
+        <p>Sign in with your Google Account</p>
       </div>
     </div>
   )

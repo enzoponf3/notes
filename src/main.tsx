@@ -2,7 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
 import App from "./App/App"
-import user,{Provider as UserProvider} from "~/components/user/context"
+import {Provider as UserProvider} from "~/components/user/context"
 
 ReactDOM.render(
   <React.StrictMode>
