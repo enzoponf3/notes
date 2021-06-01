@@ -7,13 +7,15 @@ import { Reminder } from "~/components/reminder/types"
 
 interface Props{
   id: string
+  userId: string
 }
 
-const AddReminder: React.FC<Props> = ({id=""}) => {
+const AddReminder: React.FC<Props> = ({id="", userId}) => {
   const [disabled, setDisabled] = React.useState<boolean>(false)
   type frecuency = "daily" | "weekly" | "monthly" | "yearly"
   const [reminder, setReminder]= React.useState<Reminder>({
     id:"",
+    userId:userId,
     title:"",
     description:"",
     hour:"",
@@ -45,36 +47,21 @@ const AddReminder: React.FC<Props> = ({id=""}) => {
         <label>
             Title
           <input value={reminder.title} type="text" onChange={e => setReminder({
-            id:reminder.id,
-            title:e.target.value,
-            description:reminder.description,
-            hour:reminder.hour,
-            type:reminder.type,
-            createDate:reminder.createDate
+            ...reminder, title: e.target.value
           })} 
           />
         </label>
         <label>
             Description
           <input value={reminder.description} type="text" onChange={e => setReminder({
-            id:reminder.id,
-            title:reminder.title,
-            description:e.target.value,
-            hour:reminder.hour,
-            type:reminder.type,
-            createDate:reminder.createDate
+            ...reminder, description: e.target.value
           })} 
           />
         </label>
         <div className={styles.selectors}>
           <label htmlFor="">Frecuency</label>
           <select onChange={e => setReminder({
-            id:reminder.id,
-            title:reminder.title,
-            description:reminder.description,
-            hour:reminder.hour,
-            type:e.target.value as frecuency,
-            createDate:reminder.createDate
+            ...reminder, type: e.target.value as frecuency
           })}>
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
@@ -83,12 +70,7 @@ const AddReminder: React.FC<Props> = ({id=""}) => {
           </select>
           <label htmlFor="">Hour</label>
           <select onChange={e => setReminder({
-            id:reminder.id,
-            title:reminder.title,
-            description:reminder.description,
-            hour:e.target.value,
-            type:reminder.type,
-            createDate:reminder.createDate
+            ...reminder, hour: e.target.value
           })}>
             <option value="00">00</option>
             <option value="01">01</option>

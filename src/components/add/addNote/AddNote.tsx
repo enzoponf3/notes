@@ -5,31 +5,34 @@ import api from "~/components/note/api"
 
 import { Label } from "~/components/label/types"
 import { Note } from "~/components/note/types"
+import { addNote } from "~/firebase"
 
 interface Props{
     labels: Label[]
     id: string
+    userId: string
 }
 
-const AddNote: React.FC<Props> = ({labels, id}) => {
+const AddNote: React.FC<Props> = ({labels, id = "", userId}) => {
   const [favorite, setFavorite] = React.useState<boolean>(false)
   const [selectedLabels, setSelectedLabels] = React.useState<Label[]>([])
   const [_labels, set_labels] = React.useState<Label[]>([])
   const [disabled, setDisabled] = React.useState<boolean>(false)
   const [note, setNote] = React.useState<Note>({
     id:"",
+    userId:userId,
     title:"",
     body: "",
     labels: [],
     createDate: "",
     favorite: false
-    
   })
 
   React.useEffect(() => {
     set_labels(labels)
+    console.log(userId)
     if(id !== ""){
-      api.get(id)
+      api.get()
         .then(n => {
           if(n !== undefined){
             setNote(n)
@@ -38,7 +41,7 @@ const AddNote: React.FC<Props> = ({labels, id}) => {
             set_labels(_labels.filter(l => !selectedLabels.includes(l) ))
           }})
     }
-  },[id])
+  },[id, userId])
 
   const addBadge = (title:string) => {
     const label = labels.filter( l => l.title === title)[0]
@@ -52,43 +55,39 @@ const AddNote: React.FC<Props> = ({labels, id}) => {
     set_labels([..._labels,label])
   }
 
-  const handleSubmit = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = (e:any) => {
+    e.preventDefault()
     if(note.title === "" && note.body === "") return
     setDisabled(true)
     note.labels = [...selectedLabels]
     const date = String(new Date)
     note.createDate = date
     console.log(note)
-    api.add(note)
+    addNote(note)
       .then( r => {
         console.log(r),
         document.location.href= "/"
+      })
+      .catch(  err => {
+        console.log("Something went wrong", err)
+        setDisabled(false)
       })
   }
 
   return (
     <div className={styles.addNote}>
-      <form action="submit">
+      <form onSubmit={handleSubmit}>
         <label>
                 Title
           <input value={note.title} type="text" onChange={e => setNote({
-            id: note.id,
-            title: e.target.value,
-            body: note.body,
-            createDate: note.createDate,
-            favorite: note.favorite,
-            labels: note.labels
+            ...note, title: e.target.value
           })}/>
         </label>
         <label >
                 Note
           <textarea value={note.body} onChange={e => setNote({
-            id: note.id,
-            title: note.title,
-            body: e.target.value,
-            createDate: note.createDate,
-            favorite: note.favorite,
-            labels: note.labels
+            ...note, body: e.target.value
           })
           } />
         </label>

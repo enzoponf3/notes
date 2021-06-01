@@ -7,6 +7,7 @@ import labelApi from "../label/api"
 import AddNote from "./addNote"
 import AddLabel from "./addLabel"
 import AddReminder from "./addReminder"
+import { useUser } from "../user/hooks"
  interface Props{
   _type: "note" | "reminder" | "label"
   id: string
@@ -15,6 +16,7 @@ import AddReminder from "./addReminder"
 const Add: React.FC <Props> = ( { _type = "note", id = ""} ) => {
   const [type, setType] = React.useState<string>(_type)
   const [labels, setLabels] = React.useState<Label[]>([])
+  const user = useUser()
 
   React.useEffect(() => {
     labelApi.list()
@@ -32,13 +34,13 @@ const Add: React.FC <Props> = ( { _type = "note", id = ""} ) => {
       </div>
       }      
       {type === "note" && 
-        <AddNote labels={labels} id={id}/>
+        <AddNote labels={labels} id={id} userId={user? user.id : ""}/>
       }
       {type === "reminder" && 
-        <AddReminder id={id}/>
+        <AddReminder id={id} userId={user? user.id : ""}/>
       }
       {type === "label" && 
-        <AddLabel id={id}/>
+        <AddLabel id={id} userId={user? user.id : ""}/>
       }
     </div>
   )

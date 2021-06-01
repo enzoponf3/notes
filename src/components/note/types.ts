@@ -1,7 +1,8 @@
 import { Label } from "../label/types"
 
 export interface Note {
-    id:string
+    id: string
+    userId:string
     title: string
     body: string
     labels: Label[]

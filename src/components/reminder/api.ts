@@ -2,6 +2,7 @@ import { Reminder } from "./types"
 let reminders: Reminder[] = [
   {
     id: "1",
+    userId:"3Yi2sDk6MucHElfFSI7VswgGn583",
     title: "Meet with team",
     description:"Daily talk",
     type: "daily",
@@ -10,6 +11,7 @@ let reminders: Reminder[] = [
   },
   {
     id: "2",
+    userId:"3Yi2sDk6MucHElfFSI7VswgGn583",
     title: "Sprint",
     description: "Weekly stand up",
     type: "weekly",

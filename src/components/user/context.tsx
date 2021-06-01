@@ -23,10 +23,11 @@ const UserProvider: React.FC = ({children}) => {
 
   React.useEffect(() => {
     firebase.onAuthStateChanged(setUser)
+    //setUser({id:"wara", username:"enozo"})
     setTimeout(() => {
       setStatus("resolved")
     }, 800)
-  },[user])
+  },[])
 
   async function handleLogin(){
     if(user) return
@@ -38,7 +39,7 @@ const UserProvider: React.FC = ({children}) => {
   async function handleLogout(){
     if(!user) return
     await firebase.logout()
-    setUser(undefined)
+      .then(() => setUser(undefined))
   }
 
   if(status === "pending"){

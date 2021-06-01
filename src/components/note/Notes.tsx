@@ -5,9 +5,10 @@ import styles from "./Notes.module.scss"
 import {Note} from "./types"
 import NoteCard from "./noteCard"
 
-import api from "./api"
 import Loader from "../loader"
 import Add from "../add"
+import { getNotes } from "~/firebase"
+import { useUser } from "../user/hooks"
 
 const Notes: React.FC = () => {
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
@@ -16,10 +17,13 @@ const Notes: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
   const [editId, setEditId] = React.useState<string>("")
   const { label } = useParams<{label: string}>()
+  const user = useUser()
 
   React.useEffect( () => {
-    api.list()
-      .then( (e) => {          
+    if(!user) return
+    getNotes(user.id)
+      .then( (e) => { 
+        console.log(e)      
         setNotes(e)
         setFavorites(e.filter(n => n.favorite === true))
         setStatus("resolved")

@@ -6,11 +6,16 @@ import api from "~/components/label/api"
 
 interface Props{
   id: string
+  userId: string
 }
 
-const AddLabel: React.FC<Props> = ({ id = "" }) => {
+const AddLabel: React.FC<Props> = ({ id = "", userId }) => {
   const [disabled, setDisabled] = React.useState<boolean>(false)
-  const [label, setLabel] = React.useState<Label>({id:"", title:""})
+  const [label, setLabel] = React.useState<Label>({
+    id:"",
+    userId:userId,
+    title:""
+  })
 
   React.useEffect(() => {
     if(id !== ""){
@@ -38,7 +43,9 @@ const AddLabel: React.FC<Props> = ({ id = "" }) => {
       <form action="submit">
         <label>
           Title
-          <input value={label.title} type="text" onChange={e => setLabel({id: label.id,title:e.target.value}) }/>
+          <input value={label.title} type="text" onChange={e => setLabel({
+            ...label, title: e.target.value
+          }) }/>
         </label>
         <button disabled={disabled} onClick={handleSubmit} type="button">Save Label</button>
       </form>
