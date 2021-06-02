@@ -22,10 +22,10 @@ const Notes: React.FC = () => {
   React.useEffect( () => {
     if(!user) return
     getNotes(user.id)
-      .then( (e) => { 
-        console.log(e)      
-        setNotes(e)
-        setFavorites(e.filter(n => n.favorite === true))
+      .then( (e) => {
+        const typedNotes = e as Note[]   
+        setNotes(typedNotes)
+        setFavorites(typedNotes.filter(n => n.favorite === true))
         setStatus("resolved")
       })
   },[])

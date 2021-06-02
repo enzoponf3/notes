@@ -1,11 +1,10 @@
 import * as React from "react"
 
 import styles from "./AddNote.module.scss"
-import api from "~/components/note/api"
 
 import { Label } from "~/components/label/types"
 import { Note } from "~/components/note/types"
-import { addNote } from "~/firebase"
+import { addNote, getNote, updateNote } from "~/firebase"
 
 interface Props{
     labels: Label[]
@@ -30,14 +29,14 @@ const AddNote: React.FC<Props> = ({labels, id = "", userId}) => {
 
   React.useEffect(() => {
     set_labels(labels)
-    console.log(userId)
     if(id !== ""){
-      api.get()
+      getNote(id)
         .then(n => {
           if(n !== undefined){
-            setNote(n)
-            setFavorite(n.favorite)
-            setSelectedLabels(n.labels)
+            const typedNote = n as Note
+            setNote(typedNote)
+            setFavorite(typedNote.favorite)
+            setSelectedLabels(typedNote.labels)
             set_labels(_labels.filter(l => !selectedLabels.includes(l) ))
           }})
     }
@@ -56,23 +55,23 @@ const AddNote: React.FC<Props> = ({labels, id = "", userId}) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = (e:any) => {
+  const  handleSubmit = async (e:any) => {
     e.preventDefault()
     if(note.title === "" && note.body === "") return
     setDisabled(true)
     note.labels = [...selectedLabels]
     const date = String(new Date)
     note.createDate = date
-    console.log(note)
-    addNote(note)
-      .then( r => {
-        console.log(r),
-        document.location.href= "/"
-      })
-      .catch(  err => {
-        console.log("Something went wrong", err)
-        setDisabled(false)
-      })
+    try {
+      if(id !== ""){
+        await updateNote(id, note)
+      }else{
+        await addNote(note)
+      }
+      document.location.href="/"
+    } catch (error) {
+      console.log("something went wrong", error)
+    }
   }
 
   return (

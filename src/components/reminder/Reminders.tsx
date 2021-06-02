@@ -3,25 +3,32 @@ import Loader from "../loader"
 
 import styles from "./Reminders.module.scss"
 import { Reminder } from "./types"
-import api from "./api"
 import Add from "../add"
+import { deleteReminder, getReminders } from "~/firebase"
+import { useUser } from "../user/hooks"
 
 const Reminders: React.FC = () => {
   const [reminders, setReminders] = React.useState<Reminder[]>([])
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
   const [editId, setEditId] = React.useState<string>("")
-
+  const user = useUser()
   React.useEffect(() => {
-    api.list()
+    if(!user) return
+    getReminders(user.id)
       .then(r =>{
-        setReminders(r)
+        const typedLabels = r as Reminder[]
+        setReminders(typedLabels)
         setStatus("resolved")
       })
   },[])
 
   const handleDelete = (reminder:Reminder) => {
-    setReminders(reminders.filter(r => r !== reminder))
+    const reminderIndex = reminders.findIndex( r => r.id === reminder.id)
+    deleteReminder(reminder.id)
+      .then( () => {
+        setReminders(reminders.splice(reminderIndex, 1))
+      })
   }
 
   const handleEdit = (reminder:Reminder) => {

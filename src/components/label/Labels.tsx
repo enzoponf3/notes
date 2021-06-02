@@ -1,29 +1,37 @@
 import * as React from "react"
 import Loader from "../loader"
 
-import api from "./api"
 import { Label } from "./types"
 
 import styles from "./Labels.module.scss"
 import Add from "../add"
+import { useUser } from "../user/hooks"
+import { deleteLabel, getLabels } from "~/firebase"
 
 
 const Labels: React.FC = () => {
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
   const [labels, setLabels] = React.useState<Label[]>([])
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
-  const [edit, setEdit] = React.useState<Label>({id:"", title:""})
+  const user = useUser()
+  const [edit, setEdit] = React.useState<Label>({id:"", userId: user? user.id : "", title:""})
 
   React.useEffect(() => {
-    api.list()
+    if(!user) return
+    getLabels(user.id)
       .then( l => {
-        setLabels(l)
+        const typedLabels = l as Label[]
+        setLabels(typedLabels)
         setStatus("resolved")
       })      
   },[])
 
   const handleDelete = (label: Label) => {
-    setLabels(labels.filter(l => l !== label))
+    const labelIndex = labels.findIndex( l => l.id === label.id)
+    deleteLabel(label.id)
+      .then(() => 
+        setLabels(labels.splice(labelIndex, 1))
+      )
   }
 
   const handleClick = (label: Label) => {
