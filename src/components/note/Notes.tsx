@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 
 import styles from "./Notes.module.scss"
 import {Note} from "./types"
@@ -7,7 +7,7 @@ import NoteCard from "./noteCard"
 
 import Loader from "../loader"
 import Add from "../add"
-import { getNotes } from "~/firebase"
+import { deleteNote, getNotes } from "~/firebase"
 import { useUser } from "../user/hooks"
 
 const Notes: React.FC = () => {
@@ -18,6 +18,7 @@ const Notes: React.FC = () => {
   const [editId, setEditId] = React.useState<string>("")
   const { label } = useParams<{label: string}>()
   const user = useUser()
+  const history = useHistory()
 
   React.useEffect( () => {
     if(!user) return
@@ -30,8 +31,13 @@ const Notes: React.FC = () => {
       })
   },[])
   const handleDelete = (note:Note) => {
-    setNotes(notes => notes.filter(n => n !== note))
-    setFavorites(notes => notes.filter(n => n !== note))
+    if(confirm("Are you sure you want to delete this note?")){
+      deleteNote(note.id)
+        .then( () => {
+          {user && getNotes(user.id)
+            .then(n => setNotes(n as Note[]))}
+        })
+    }
   }
   const handleFav = (note: Note) =>{
     note.favorite = !note.favorite
@@ -39,8 +45,7 @@ const Notes: React.FC = () => {
   }
 
   const handleEdit = (note: Note) =>{
-    setEditId(note.id)
-    setIsOpen(true)
+    history.push(`edit/note/${note.id}`)
   }
 
   if (status === "pending") {
@@ -105,14 +110,6 @@ const Notes: React.FC = () => {
                 key={e.id} 
                 note={e}
               />)}
-          </div>
-          <div 
-            className={isOpen? `${styles.edit} ${styles.open}`:`${styles.edit}`}
-          >
-            <Add  _type="note" id={editId} />
-            <button 
-              onClick={ () => setIsOpen(false) }
-              className={styles.cancelBtn} type="button">Cancel</button>
           </div>
         </div>
       }

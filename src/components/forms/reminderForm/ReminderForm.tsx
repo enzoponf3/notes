@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import styles from "./AddReminder.module.scss"
+import styles from "./ReminderForm.module.scss"
 import api from "~/components/reminder/api"
 
 import { Reminder } from "~/components/reminder/types"
@@ -10,7 +10,7 @@ interface Props{
   userId: string
 }
 
-const AddReminder: React.FC<Props> = ({id="", userId}) => {
+const ReminderForm: React.FC<Props> = ({id="", userId}) => {
   const [disabled, setDisabled] = React.useState<boolean>(false)
   type frecuency = "daily" | "weekly" | "monthly" | "yearly"
   const [reminder, setReminder]= React.useState<Reminder>({
@@ -104,4 +104,4 @@ const AddReminder: React.FC<Props> = ({id="", userId}) => {
   )
 }
 
-export default AddReminder
+export default ReminderForm

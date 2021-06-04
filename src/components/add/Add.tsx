@@ -1,13 +1,13 @@
 import * as React from "react"
 
 import styles from "./Add.module.scss"
-import { Label } from "../label/types"
-import labelApi from "../label/api"
+import { Label } from "~/components/label/types"
+import labelApi from "~/components/label/api"
 
-import AddNote from "./addNote"
-import AddLabel from "./addLabel"
-import AddReminder from "./addReminder"
-import { useUser } from "../user/hooks"
+import NoteForm from "~/components/forms/noteForm"
+import LabelForm from "~/components/forms/labelForm"
+import ReminderForm from "~/components/forms/reminderForm"
+import { useUser } from "~/components/user/hooks"
  interface Props{
   _type: "note" | "reminder" | "label"
   id: string
@@ -34,13 +34,13 @@ const Add: React.FC <Props> = ( { _type = "note", id = ""} ) => {
       </div>
       }      
       {type === "note" && 
-        <AddNote labels={labels} id={id} userId={user? user.id : ""}/>
+        <NoteForm labels={labels} id={id} userId={user? user.id : ""}/>
       }
       {type === "reminder" && 
-        <AddReminder id={id} userId={user? user.id : ""}/>
+        <ReminderForm id={id} userId={user? user.id : ""}/>
       }
       {type === "label" && 
-        <AddLabel id={id} userId={user? user.id : ""}/>
+        <LabelForm id={id} userId={user? user.id : ""}/>
       }
     </div>
   )

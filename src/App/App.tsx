@@ -9,6 +9,7 @@ import Notes from "~/components/note"
 import Labels from "~/components/label"
 import Reminders from "~/components/reminder"
 import Add from "~/components/add"
+import Edit from "~/components/edit"
 
 function App() {
   const [title, setTitle] = React.useState<"Notes" | "Labels" | "Reminders">("Notes")
@@ -41,6 +42,7 @@ function App() {
         <Route path="/labels" exact component={Labels}/>
         <Route path="/reminders" exact component={Reminders}/>
         <Route path="/add" exact component={Add}/>
+        <Route path="/edit/:type/:id" exact component = {Edit}/>
       </div>
     </Router>
   )

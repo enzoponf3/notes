@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Label } from "~/components/label/types"
 
-import styles from "./AddLabel.module.scss"
+import styles from "./LabelForm.module.scss"
 import api from "~/components/label/api"
 
 interface Props{

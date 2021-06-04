@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import styles from "./AddNote.module.scss"
+import styles from "./NoteForm.module.scss"
 
 import { Label } from "~/components/label/types"
 import { Note } from "~/components/note/types"
