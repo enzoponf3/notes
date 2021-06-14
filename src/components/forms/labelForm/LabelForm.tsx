@@ -3,6 +3,8 @@ import { Label } from "~/components/label/types"
 
 import styles from "./LabelForm.module.scss"
 import api from "~/components/label/api"
+import { addLabel, getLabel } from "~/firebase"
+import { useHistory } from "react-router"
 
 interface Props{
   id: string
@@ -16,13 +18,14 @@ const AddLabel: React.FC<Props> = ({ id = "", userId }) => {
     userId:userId,
     title:""
   })
+  const history = useHistory()
 
   React.useEffect(() => {
     if(id !== ""){
-      api.get(id)
+      getLabel(id)
         .then(l => {
           if(l !== undefined){
-            setLabel(l)
+            setLabel(l as Label)
           }
         })
     }
@@ -31,9 +34,9 @@ const AddLabel: React.FC<Props> = ({ id = "", userId }) => {
   const handleSubmit = () => {
     if(label.title === "") return 
     setDisabled(true)
-    api.add(label)
+    addLabel(label)
       .then( () =>
-        document.location.href="/labels"
+        history.push("/labels")
       )
 
   }

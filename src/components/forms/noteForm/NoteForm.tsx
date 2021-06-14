@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import styles from "./NoteForm.module.scss"
+import { useHistory } from "react-router-dom"
 
 import { Label } from "~/components/label/types"
 import { Note } from "~/components/note/types"
@@ -26,6 +27,7 @@ const AddNote: React.FC<Props> = ({labels, id = "", userId}) => {
     createDate: "",
     favorite: false
   })
+  const history = useHistory()
 
   React.useEffect(() => {
     set_labels(labels)
@@ -60,15 +62,14 @@ const AddNote: React.FC<Props> = ({labels, id = "", userId}) => {
     if(note.title === "" && note.body === "") return
     setDisabled(true)
     note.labels = [...selectedLabels]
-    const date = String(new Date)
-    note.createDate = date
+    note.createDate = String(new Date)
     try {
       if(id !== ""){
         await updateNote(id, note)
       }else{
         await addNote(note)
       }
-      document.location.href="/"
+      history.push("/")
     } catch (error) {
       console.log("something went wrong", error)
     }
@@ -112,7 +113,7 @@ const AddNote: React.FC<Props> = ({labels, id = "", userId}) => {
             setFavorite(true)
           }}>Yes</button>
         </label>
-        <button disabled={disabled} type="button" onClick={handleSubmit}>Save Note</button>
+        <button disabled={disabled}>Save Note</button>
       </form>
     </div>  
   )

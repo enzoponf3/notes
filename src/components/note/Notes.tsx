@@ -1,21 +1,19 @@
 import * as React from "react"
 import { useParams, useHistory } from "react-router-dom"
+import { Helmet } from "react-helmet-async"
 
 import styles from "./Notes.module.scss"
 import {Note} from "./types"
 import NoteCard from "./noteCard"
 
 import Loader from "../loader"
-import Add from "../add"
-import { deleteNote, getNotes } from "~/firebase"
+import { deleteNote, getNotes, updateNote } from "~/firebase"
 import { useUser } from "../user/hooks"
 
 const Notes: React.FC = () => {
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
   const [notes, setNotes] = React.useState<Note[]>([])
   const [favorites, setFavorites] = React.useState<Note[]>([])
-  const [isOpen, setIsOpen] = React.useState<boolean>(false)
-  const [editId, setEditId] = React.useState<string>("")
   const { label } = useParams<{label: string}>()
   const user = useUser()
   const history = useHistory()
@@ -30,6 +28,7 @@ const Notes: React.FC = () => {
         setStatus("resolved")
       })
   },[])
+
   const handleDelete = (note:Note) => {
     if(confirm("Are you sure you want to delete this note?")){
       deleteNote(note.id)
@@ -39,9 +38,17 @@ const Notes: React.FC = () => {
         })
     }
   }
-  const handleFav = (note: Note) =>{
+
+  const handleFav = async(note: Note) =>{
+    if(!user) return
     note.favorite = !note.favorite
-    setFavorites (notes.filter(n => n.favorite === true))
+    await updateNote(note.id, note)
+    await getNotes(user?.id)
+      .then( n => {
+        const updatedNotes = n as Note[]
+        setFavorites(updatedNotes.filter(n => n.favorite === true))
+        setNotes(updatedNotes.filter(n => n.favorite !== true))
+      })
   }
 
   const handleEdit = (note: Note) =>{
@@ -57,6 +64,9 @@ const Notes: React.FC = () => {
   if(label){
     return(
       <div className={styles.notes}>
+        <Helmet>
+          <title>PNotes | Notes: {label}</title>
+        </Helmet>
         <>
           <p>Label: {label}</p>
           <div className={styles.container}>
@@ -84,6 +94,9 @@ const Notes: React.FC = () => {
 
   return (
     <>
+      <Helmet>
+        <title>PNotes</title>
+      </Helmet>
       {notes.length === 0 && <div className={styles.message}><p>Add notes by clicking the</p><strong>+</strong> <p> icon below!</p></div> }
       {notes.length !== 0 &&
         <div className={styles.notes}>          

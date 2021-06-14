@@ -1,9 +1,10 @@
 import * as React from "react"
-
+import { useHistory } from "react-router-dom"
 import styles from "./ReminderForm.module.scss"
 import api from "~/components/reminder/api"
 
 import { Reminder } from "~/components/reminder/types"
+import { addReminder, getReminder } from "~/firebase"
 
 interface Props{
   id: string
@@ -22,28 +23,33 @@ const ReminderForm: React.FC<Props> = ({id="", userId}) => {
     type:"daily",
     createDate:""
   })
+  const history = useHistory()
+
   React.useEffect(() => {
     if(id !== ""){
-      api.get(id)
+      getReminder(id)
         .then(r => {
           if(r !== undefined){
-            setReminder(r)
+            setReminder(r as Reminder)
           }
         })
     }
   },[id])
 
-  const handleSubmit = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = async ( e: any) => {
+    e.preventDefault()
     if(reminder.title === "") return
     setDisabled(true)
-    api.add(reminder)
-      .then(() => {
-        document.location.href = "/reminders"
+    reminder.createDate = String(new Date)
+    addReminder(reminder)
+      .then( () => {
+        history.push("/reminders")
       })
   }
   return (
     <div className={styles.addReminder}>
-      <form action="submit">
+      <form onSubmit={handleSubmit}>
         <label>
             Title
           <input value={reminder.title} type="text" onChange={e => setReminder({
@@ -98,7 +104,7 @@ const ReminderForm: React.FC<Props> = ({id="", userId}) => {
             <option value="23">23</option>
           </select>
         </div>
-        <button disabled={disabled} type="button" onClick={handleSubmit}>Save Reminder</button>
+        <button disabled={disabled}>Save Reminder</button>
       </form>
     </div>
   )

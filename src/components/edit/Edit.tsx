@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useParams } from "react-router-dom"
+import { Helmet } from "react-helmet-async" 
 
 import styles from "./Edit.module.scss"
 
@@ -20,12 +21,17 @@ const Edit: React.FC = () => {
     {user && getLabels(user.id).then(l => setLabels(l as Label[]))}
   },[])
   return (
-    <div className={styles.add}>
-      {type === "note" && <NoteForm id={id} labels={labels} userId={user? user.id : ""} />}
-      {type === "label" && <LabelForm id={id} userId={user? user.id : ""} />}
-      {type === "reminder" && <ReminderForm id={id} userId={user? user.id : ""} />}
-      <button>Cancel</button>
-    </div>
+    <>
+      <Helmet>
+        <title>{`PNotes | Edit ${type}`}</title>
+      </Helmet>
+      <div className={styles.add}>
+        {type === "note" && <NoteForm id={id} labels={labels} userId={user? user.id : ""} />}
+        {type === "label" && <LabelForm id={id} userId={user? user.id : ""} />}
+        {type === "reminder" && <ReminderForm id={id} userId={user? user.id : ""} />}
+        <button>Cancel</button>
+      </div>
+    </>
   )
 }
 

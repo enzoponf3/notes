@@ -3,8 +3,10 @@
   top: 0;
   padding: 6rem 1rem;
   background-color: var(--primary);
+  width: 100%;
 }
 .reminder {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   background-color: rgba($color: #eee, $alpha: 0.1);
@@ -14,6 +16,7 @@
   align-items: center;
   cursor: pointer;
   div {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,6 +46,13 @@
   &:hover {
     background-color: rgba($color: #eee, $alpha: 0.1);
   }
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .message {

@@ -1,20 +1,19 @@
 import * as React from "react"
-import Loader from "../loader"
-
-import { Label } from "./types"
 
 import styles from "./Labels.module.scss"
-import Add from "../add"
+import { useHistory } from "react-router"
+import { Helmet } from "react-helmet-async"
+ 
+import { Label } from "./types"
+import Loader from "../loader"
 import { useUser } from "../user/hooks"
 import { deleteLabel, getLabels } from "~/firebase"
-
 
 const Labels: React.FC = () => {
   const [status, setStatus] = React.useState<"pending" | "resolved" | "rejected">("pending")
   const [labels, setLabels] = React.useState<Label[]>([])
-  const [isOpen, setIsOpen] = React.useState<boolean>(false)
   const user = useUser()
-  const [edit, setEdit] = React.useState<Label>({id:"", userId: user? user.id : "", title:""})
+  const history = useHistory()
 
   React.useEffect(() => {
     if(!user) return
@@ -39,19 +38,26 @@ const Labels: React.FC = () => {
   }
 
   const handleEdit = (label: Label) => {
-    setEdit(label)
-    setIsOpen(true)
+    history.push(`/edit/label/${label.id}`)
   }
 
   if(status ==="pending"){
     return(
-      <Loader/>
+      <>
+        <Helmet>
+          <title>Loading . . .</title>
+        </Helmet>
+        <Loader/>
+      </>
     )
   }
 
 
   return (
     <>
+      <Helmet>
+        <title>PNotes | Labels</title>
+      </Helmet>
       {labels.length === 0 && <div className={styles.message}>Add labels by clicking the <span className="material-icons">add</span> icon below!</div>}
       <div className={styles.container}>
         {labels.map( l => 
@@ -66,10 +72,7 @@ const Labels: React.FC = () => {
             </div>
           </div>
         )}
-        <div className={isOpen? `${styles.edit} ${styles.open}`:`${styles.edit}`}>
-          <Add  _type="label" id={edit.id} />
-          <button onClick={ () => setIsOpen(false)} className={styles.cancelBtn} type="button">Cancel</button>
-        </div>
+        
       </div>
     </>
   )
