@@ -36,3 +36,27 @@
 .container {
   margin-bottom: 5rem;
 }
+
+@media screen and (min-width: 480px) {
+  .container,
+  .favorites {
+    justify-content: space-evenly;
+    max-width: 100vw;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .notes {
+    padding: 1rem 0 5rem 0;
+    p {
+      margin-left: 5rem;
+    }
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .favorites {
+    margin: 1rem;
+  }
+}

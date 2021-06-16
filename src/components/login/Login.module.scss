@@ -49,3 +49,14 @@ p {
   font-size: 12px;
   margin-top: 0.5rem;
 }
+
+@media screen and (min-width: 768px) {
+  .login {
+    img {
+      width: 15%;
+    }
+  }
+  .loginBtn {
+    max-width: 20rem;
+  }
+}
