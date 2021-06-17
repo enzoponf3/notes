@@ -135,7 +135,7 @@ export const updateReminder = (reminderId: string, reminder: Reminder) => {
   return db.collection("reminders").doc(reminderId).update(reminder)
 }
 
-export const updateLabels = (labelId: string, label: Label) => {
+export const updateLabel = (labelId: string, label: Label) => {
   return db.collection("labels").doc(labelId).update(label)
 }
 

@@ -2,8 +2,8 @@ import * as React from "react"
 import { Label } from "~/components/label/types"
 
 import styles from "./LabelForm.module.scss"
-import api from "~/components/label/api"
-import { addLabel, getLabel } from "~/firebase"
+//import api from "~/components/label/api"
+import { addLabel, getLabel, updateLabel } from "~/firebase"
 import { useHistory } from "react-router"
 
 interface Props{
@@ -31,19 +31,27 @@ const AddLabel: React.FC<Props> = ({ id = "", userId }) => {
     }
   },[id])
 
-  const handleSubmit = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmit = async (e: any) => {
+    e.preventDeafult()
     if(label.title === "") return 
     setDisabled(true)
-    addLabel(label)
-      .then( () =>
-        history.push("/labels")
-      )
-
+    try {
+      if(id !== ""){
+        await updateLabel(id, label)
+      }else{
+        await addLabel(label)
+      }
+      history.push("/")
+    } catch (error) {
+      setDisabled(false)
+      console.log("something went wrong", error)
+    }
   }
 
   return (
     <div className={styles.addLabel}>
-      <form action="submit">
+      <form onClick={handleSubmit}>
         <label>
           Title
           <input value={label.title} type="text" onChange={e => setLabel({
@@ -52,6 +60,7 @@ const AddLabel: React.FC<Props> = ({ id = "", userId }) => {
         </label>
         <button disabled={disabled} onClick={handleSubmit} type="button">Save Label</button>
       </form>
+      {id && <button className={styles.cancelBtn} type="button" onClick={() => history.goBack()}>Cancel</button>}
     </div>
   )
 }

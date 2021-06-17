@@ -87,6 +87,12 @@
   }
 }
 
+@media screen and (min-width: 480px) {
+  .noteCard {
+    width: 49%;
+  }
+}
+
 @media screen and (min-width: 640px) {
   .noteCard {
     width: 30%;

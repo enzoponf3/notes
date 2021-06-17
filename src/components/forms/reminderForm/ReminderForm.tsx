@@ -1,10 +1,10 @@
 import * as React from "react"
 import { useHistory } from "react-router-dom"
 import styles from "./ReminderForm.module.scss"
-import api from "~/components/reminder/api"
+//import api from "~/components/reminder/api"
 
 import { Reminder } from "~/components/reminder/types"
-import { addReminder, getReminder } from "~/firebase"
+import { addReminder, getReminder, updateReminder } from "~/firebase"
 
 interface Props{
   id: string
@@ -42,10 +42,17 @@ const ReminderForm: React.FC<Props> = ({id="", userId}) => {
     if(reminder.title === "") return
     setDisabled(true)
     reminder.createDate = String(new Date)
-    addReminder(reminder)
-      .then( () => {
-        history.push("/reminders")
-      })
+    try {
+      if(id !== ""){
+        await updateReminder(id, reminder)
+      }else{
+        await addReminder(reminder)
+      }
+      history.push("/")
+    } catch (error) {
+      setDisabled(false)
+      console.log("something went wrong", error)
+    }
   }
   return (
     <div className={styles.addReminder}>
@@ -106,6 +113,7 @@ const ReminderForm: React.FC<Props> = ({id="", userId}) => {
         </div>
         <button disabled={disabled}>Save Reminder</button>
       </form>
+      {id && <button className={styles.cancelBtn} type="button" onClick={() => history.goBack()}>Cancel</button>}
     </div>
   )
 }

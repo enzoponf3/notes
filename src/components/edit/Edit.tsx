@@ -29,7 +29,6 @@ const Edit: React.FC = () => {
         {type === "note" && <NoteForm id={id} labels={labels} userId={user? user.id : ""} />}
         {type === "label" && <LabelForm id={id} userId={user? user.id : ""} />}
         {type === "reminder" && <ReminderForm id={id} userId={user? user.id : ""} />}
-        <button>Cancel</button>
       </div>
     </>
   )

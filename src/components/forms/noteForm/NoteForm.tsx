@@ -71,6 +71,7 @@ const AddNote: React.FC<Props> = ({labels, id = "", userId}) => {
       }
       history.push("/")
     } catch (error) {
+      setDisabled(false)
       console.log("something went wrong", error)
     }
   }
@@ -115,6 +116,7 @@ const AddNote: React.FC<Props> = ({labels, id = "", userId}) => {
         </label>
         <button disabled={disabled}>Save Note</button>
       </form>
+      {id && <button className={styles.cancelBtn} type="button" onClick={() => history.goBack()}>Cancel</button>}
     </div>  
   )
 }

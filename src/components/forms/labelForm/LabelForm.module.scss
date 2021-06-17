@@ -2,6 +2,8 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   form {
     width: 90%;
     display: flex;
@@ -10,5 +12,34 @@
       width: 100%;
       text-align: left;
     }
+  }
+}
+
+.cancelBtn {
+  border: 1px solid #eee !important;
+  margin-top: 1rem;
+  width: 90%;
+}
+
+@media screen and (min-width: 640px) {
+  .addLabel {
+    form {
+      max-width: 800px;
+    }
+    label {
+      font-size: 1.3rem;
+    }
+    textarea,
+    input,
+    a,
+    button,
+    select {
+      font-size: 1.1rem;
+    }
+  }
+
+  .cancelBtn {
+    max-width: 800px;
+    border-radius: 6px;
   }
 }

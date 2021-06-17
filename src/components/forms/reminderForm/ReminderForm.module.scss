@@ -1,6 +1,8 @@
 .addReminder {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   form {
     width: 90%;
@@ -12,5 +14,34 @@
   }
   option {
     background-color: gray;
+  }
+}
+
+.cancelBtn {
+  border: 1px solid #eee !important;
+  margin-top: 1rem;
+  width: 90%;
+}
+
+@media screen and (min-width: 640px) {
+  .addReminder {
+    form {
+      max-width: 800px;
+    }
+    label {
+      font-size: 1.3rem;
+    }
+    textarea,
+    input,
+    a,
+    button,
+    select {
+      font-size: 1.1rem;
+    }
+  }
+
+  .cancelBtn {
+    max-width: 800px;
+    border-radius: 6px;
   }
 }
